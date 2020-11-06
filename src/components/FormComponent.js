@@ -13,7 +13,7 @@ const renderField = ({
   label,
   disabled,
   readOnly,
-  meta: { touched, error, warning },
+  meta: { touched, error },
 }) => (
   <Row>
     <Col md="12">
@@ -30,8 +30,7 @@ const renderField = ({
         readOnly={readOnly}
       ></Input>
       {touched &&
-        ((error && <p style={{ color: "red" }}>{error}</p>) ||
-          (warning && <p style={{ color: "brown" }}>{warning}</p>))}
+        ((error && <p style={{ color: "red" }}>{error}</p>))}
     </Col>
   </Row>
 );
@@ -41,18 +40,30 @@ const renderField = ({
 
 class FormComponent extends Component {
     
-  
+  constructor() {
+    super();
+    this.state = {
+      selectedCountryID: "",
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(getCountriesList());
     this.props.dispatch(getGetVehicleTypeList())
     console.log(this.props,"props")
   }
 
-  componentDidUpdate(){
-    this.props.dispatch(getCities());
-    console.log("update")
-    
+ componentDidUpdate() {
+    this.props.dispatch(getCities(this.state.selectedCountryID));
+    console.log("update");
   }
+
+  onchangem = (e) => {
+    let el = e.target.childNodes[e.target.selectedIndex];
+    this.setState({
+      selectedCountryID: el.getAttribute("id"),
+    });
+  };
 
 
 
@@ -98,37 +109,43 @@ class FormComponent extends Component {
           </Col>
 
       
-          <Col md={4}>
+          <Col md={3}>
+            <FormGroup>
+              <p>Country</p>
+              {this.props.getCountriesList ? (
+                <h2> loading countries</h2>
+              ) : (
+                <Input type="select" name="select" onChange={this.onchangem}>
+                  {this.props.initialValues.getCountriesList &&
+                    this.props.initialValues.getCountriesList.map((c) => (
+                      <option key={c.ID} value={c.Value} id={c.ID}>
+                        {c.Value}
+                      </option>
+                    ))}
+                </Input>
+              )}
+            </FormGroup>
+            </Col>
+     
+
+            <Col md={2}>
             <FormGroup>
 
+         <p>City</p>
+         {this.props.getCities ? (
          
-      <p>Country</p>
-          {this.props.getCountriesList ? (
-         
-              <h2> loading countries</h2>
+              <h2> loading Cities</h2>
           ) : (
-            <Input type="select" name="select">{
-             
-              this.props.initialValues.getCountriesList &&
-              this.props.initialValues.getCountriesList.map((c)=>(
-                 
-                ( <option key={c.ID} value="Country">{c.Value}</option>)
+            <Input type="select" name="select" >{
+              this.props.initialValues &&
+              this.props.initialValues.getCities &&
+              this.props.initialValues.getCities.map((city)=>(
+                (<option key={city.ID} >{city.Value}</option>)
               ))}</Input>
           )}
+
        </FormGroup>
        </Col> 
-
-
-          <Col md={4}>
-            <FormGroup>
-              <Field
-                type="number"
-                name="City"
-                component={renderField}
-                label="City :"
-              />
-            </FormGroup>
-          </Col>
 
 
           <Col md={2}>
@@ -333,7 +350,9 @@ const mapStateToProps = (state) => {
       ContactPerson_TelephoneNumber:state.companies.getCompanyDetail.ContactPerson_Name,
       ContactPerson_Email:state.companies.getCompanyDetail.ContactPerson_Email,
       getCountriesList:state.companies.getCountriesList,
-      getGetVehicleTypeList:state.companies.getGetVehicleTypeList
+      getCities:state.companies.getCities,
+      getGetVehicleTypeList:state.companies.getGetVehicleTypeList,
+     
 
     }
   };
