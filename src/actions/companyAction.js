@@ -157,14 +157,24 @@ export const postCompanyCreate = (data) => {
     axios
       .post(
          "http://23.254.228.118:8080/API/api/TransportationCompany/Add",
-        data
+         {...data , TransportationCompanyBuses:[{
+         BusTypeID:data.BusTypeID,
+         Brand:data.Brand,
+         Number_Of_Seats:data.Number_Of_Seats,
+         Number_Of_Seats_Per_Raw:data.Number_Of_Seats_Per_Raw,
+         Total_Number_Of_Buses:data.Total_Number_Of_Buses,
+         Bus_Layout:"data.Bus_Layout",
+         Notes:"data.Notes",
+         YearModel:data.YearModel,
+         Description:"data.Description"
+        }]}
       )
       .then(function (response) {
         console.log(response);
         
         dispatch({
           type: POST_COMPANY_CREATE,
-          payload: {
+            payload: {
             data: response.data,
             errorMessage: false,
           },
@@ -187,7 +197,17 @@ export const putCompanyUpdate = (data) => {
     axios
       .put(
          `http://23.254.228.118:8080/API/api/TransportationCompany/Update`,
-        data
+         {...data , TransportationCompanyBuses:[{
+          BusTypeID:data.BusTypeID,
+          Brand:data.Brand,
+          Number_Of_Seats:data.Number_Of_Seats,
+          Number_Of_Seats_Per_Raw:data.Number_Of_Seats_Per_Raw,
+          Total_Number_Of_Buses:data.Total_Number_Of_Buses,
+          Bus_Layout:data.Bus_Layout,
+          Notes:data.Notes,
+          YearModel:data.YearModel,
+          Description:data.Description
+         }]}
       )
       .then(function (response) {
         console.log(response);

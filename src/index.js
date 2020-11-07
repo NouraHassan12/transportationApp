@@ -9,8 +9,11 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
 import thunk from "redux-thunk";
+import store from './reducers/store';
 
-const store = createStore(reducer, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+
+// const devTools = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null
+// const store = createStore(reducer, compose(applyMiddleware(thunk), devTools));
 
 ReactDOM.render(
   <React.StrictMode>
