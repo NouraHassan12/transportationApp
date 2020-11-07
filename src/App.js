@@ -12,7 +12,7 @@ export default class App extends Component {
     return (
       <div>
         <NavbarComponent />
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter >
           <Route path="/" exact component={HomeContainer} />
 
           <Route path="/create" exact component={CreateCompanyContainer} />
