@@ -5,7 +5,8 @@ import {
   PUT_COMPANY_EDIT,
   GET_COUNTRIES_lIST,
   GET_CITIES_lIST,
-  GET_VEHICLETYPES_lIST
+  GET_VEHICLETYPES_lIST,
+  CLEAR_COMPANY_DETAIL
 
 } from "../actions/companyAction";
 
@@ -51,6 +52,13 @@ const companies = (state = initialState, action) => {
             getCities: action.payload.data,
             
           };
+
+    case CLEAR_COMPANY_DETAIL : 
+          return {
+            ...state,
+            getCompanyDetail : false,
+            errorCompanyDetail : false
+          }
 
     case GET_COMPANY_DETAIL:
       return {

@@ -3,7 +3,7 @@ import { Container } from "reactstrap";
 import BackComponent from "../components/BackComponent";
 import { connect } from "react-redux";
 import FormComponent from "../components/FormComponent";
-import { getCompanyDetail, putCompanyUpdate } from "../actions/companyAction";
+import { getCompanyDetail, putCompanyUpdate , clear } from "../actions/companyAction";
 import swal from "sweetalert";
 
 const mapStateToProps = (state) => {
@@ -18,11 +18,19 @@ class EditCompanyContainer extends Component {
     this.props.dispatch(getCompanyDetail(this.props.match.params.id));
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(clear())
+  }
+
   handleSubmit(data) {
+  console.log(data, 'handlesubmit')
     this.props.dispatch(putCompanyUpdate(data, this.props.match.params.id));
   }
 
   render() {
+  	
+  	console.log(this.props)
+  
     if (this.props.getResponCompanyData || this.props.errorResponCompanyData) {
       if (this.props.errorResponCompanyData) {
         swal("Failed!", this.props.errorResponCompanyData, "error");

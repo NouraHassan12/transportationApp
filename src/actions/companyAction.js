@@ -9,8 +9,18 @@ export const GET_COUNTRIES_lIST = "GET_COUNTRIES_lIST";
 export const GET_CITIES_lIST = "GET_CITIES_lIST";
 export const GET_VEHICLETYPES_lIST = "GET_VEHICLETYPES_lIST";
 
+export const CLEAR_COMPANY_DETAIL = 'CLEAR_COMPANY_DETAIL'
 
 
+
+export const clear = () => {
+  return (dispatch) => {
+    dispatch({
+      type : CLEAR_COMPANY_DETAIL,
+      payload : {data : {} , errorMessage : false}
+    })
+  }
+}
 
 
 export const getGetVehicleTypeList = () => {
@@ -131,7 +141,7 @@ export const getCompanyDetail = (ID) => {
         `http://23.254.228.118:8080/API/api/TransportationCompany/GetById?id=${ID}`)
       .then(function (response) {
         console.log(response.data.Data,"Details")
-        console.log(response.data.Data.TransportationCompanyBuses,"TransportationCompanyBuses")
+        console.log(response.data.Data.c,"TransportationCompanyBuses")
         dispatch({
           type: GET_COMPANY_DETAIL,
           payload: {
@@ -157,17 +167,7 @@ export const postCompanyCreate = (data) => {
     axios
       .post(
          "http://23.254.228.118:8080/API/api/TransportationCompany/Add",
-         {...data , TransportationCompanyBuses:[{
-         BusTypeID:data.BusTypeID,
-         Brand:data.Brand,
-         Number_Of_Seats:data.Number_Of_Seats,
-         Number_Of_Seats_Per_Raw:data.Number_Of_Seats_Per_Raw,
-         Total_Number_Of_Buses:data.Total_Number_Of_Buses,
-         Bus_Layout:"data.Bus_Layout",
-         Notes:"data.Notes",
-         YearModel:data.YearModel,
-         Description:"data.Description"
-        }]}
+         {...data }
       )
       .then(function (response) {
         console.log(response);
@@ -197,17 +197,7 @@ export const putCompanyUpdate = (data) => {
     axios
       .put(
          `http://23.254.228.118:8080/API/api/TransportationCompany/Update`,
-         {...data , TransportationCompanyBuses:[{
-          BusTypeID:data.BusTypeID,
-          Brand:data.Brand,
-          Number_Of_Seats:data.Number_Of_Seats,
-          Number_Of_Seats_Per_Raw:data.Number_Of_Seats_Per_Raw,
-          Total_Number_Of_Buses:data.Total_Number_Of_Buses,
-          Bus_Layout:data.Bus_Layout,
-          Notes:data.Notes,
-          YearModel:data.YearModel,
-          Description:data.Description
-         }]}
+         {...data}
       )
       .then(function (response) {
         console.log(response);
